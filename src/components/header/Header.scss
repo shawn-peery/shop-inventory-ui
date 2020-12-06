@@ -1,0 +1,24 @@
+@import "../../style-variables/variables.scss";
+
+#page-header {
+  background-color: $header-background-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.left-side {
+  display: flex;
+  margin-left: 2rem;
+}
+
+.left-side > h1 {
+  color: $text-color;
+}
+
+.right-side {
+  margin-right: 2rem;
+}
