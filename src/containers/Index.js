@@ -49,6 +49,8 @@ function Index({ resourceName, resourceFields }) {
   function handleFetchingData() {
     const url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}`;
 
+    console.log(`Fetching URL: ${url}`);
+
     fetch(url)
       .then((response) => response.json())
       .then((data) => {

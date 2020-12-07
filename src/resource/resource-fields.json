@@ -4,22 +4,19 @@
     "inputType": "text"
   },
   {
-    "name": "artists",
-    "multi": true,
-    "inputType": "text"
-  },
-  {
-    "name": "youtube-link",
-    "inputType": "text"
-  },
-  {
-    "name": "rating",
-    "min": 0,
-    "max": 10,
+    "name": "price",
     "inputType": "number"
   },
   {
-    "name": "review",
+    "name": "description",
     "inputType": "text"
+  },
+  {
+    "name": "quantity",
+    "inputType": "number"
+  },
+  {
+    "name": "isActive",
+    "input": "checkbox"
   }
 ]

@@ -17,6 +17,7 @@ function MainSwitch({ resourceName, resourceFields }) {
   );
 
   return (
+    {window.localStorage.getItem("token");
     <Router>
       <Route path="/" component={Header} />
 
@@ -65,7 +66,7 @@ function MainSwitch({ resourceName, resourceFields }) {
           );
         }}
       />
-    </Router>
+    </Router>}
   );
 }
 
