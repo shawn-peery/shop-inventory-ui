@@ -17,7 +17,7 @@ function MainSwitch({ resourceName, resourceFields }) {
   );
 
   return (
-    {window.localStorage.getItem("token");
+    // {window.localStorage.getItem("token");
     <Router>
       <Route path="/" component={Header} />
 
