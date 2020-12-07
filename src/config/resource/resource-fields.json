@@ -1,0 +1,22 @@
+[
+  {
+    "name": "name",
+    "inputType": "text"
+  },
+  {
+    "name": "price",
+    "inputType": "number"
+  },
+  {
+    "name": "description",
+    "inputType": "text"
+  },
+  {
+    "name": "quantity",
+    "inputType": "number"
+  },
+  {
+    "name": "isActive",
+    "inputType": "checkbox"
+  }
+]

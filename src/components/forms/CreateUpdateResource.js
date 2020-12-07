@@ -1,14 +1,16 @@
 import React from "react";
 import ResourceForm from "./ResourceForm";
 
-import "./CreateUpdateDefinition.scss";
+import "./CreateUpdateResource.scss";
 
-function CreateUpdateDefinition({
+function CreateUpdateResource({
   match: { params },
   resourceName,
   resourceFields,
   create,
 }) {
+  const token = window.localStorage.getItem("auth");
+
   const [stateFields, setStateFields] = React.useState({});
 
   /*
@@ -45,14 +47,22 @@ function CreateUpdateDefinition({
   async function fetchDatabaseDataSingle() {
     const url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/${params.id}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        auth: token,
+      },
+    });
     return await response.json();
   }
 
   async function fetchDatabaseDataAll() {
     const url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        auth: token,
+      },
+    });
     const data = await response.json();
     return data;
   }
@@ -111,9 +121,10 @@ function CreateUpdateDefinition({
         setRedirect={setRedirect}
         params={params}
         create={create}
+        token={token}
       />
     </main>
   );
 }
 
-export default CreateUpdateDefinition;
+export default CreateUpdateResource;

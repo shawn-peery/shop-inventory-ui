@@ -5,30 +5,26 @@ import InputField from "./InputField";
 
 import { Form, Button } from "reactstrap";
 
-function ResourceForm({
-  resourceName,
-  resourceFields,
+function UserForm({
+  userFields,
   stateFields,
   setStateFields,
-  redirect,
-  setRedirect,
-  params,
-  create,
+  register,
+  updateToken,
   token,
 }) {
-  const [backHome, setBackHome] = React.useState(false);
-
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
   const REACT_APP_RESOURCE_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
     "<resource>",
-    // Perhaps in the future, will add functionality for resources that have differeing plural words
-    resourceName.toLowerCase() + "s"
+    "users"
   );
+
+  const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
 
   function onSubmit(event) {
     event.preventDefault();
 
-    const form = document.getElementById("resource-form");
+    const form = document.getElementById("user-form");
 
     const bodyObj = {};
 
@@ -52,23 +48,25 @@ function ResourceForm({
 
     let url;
 
-    if (!create) {
-      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/${params.id}`;
+    if (!register) {
+      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/login`;
     } else {
-      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}`;
+      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/register`;
     }
 
     fetch(url, {
-      method: create ? "POST" : "PUT",
+      method: "POST",
       headers: {
-        auth: token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyObj),
-    });
+    }).then((result) => {
+      const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
 
-    setRedirect(true);
+      localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
+      updateToken();
+    });
   }
 
   const inputFields = [];
@@ -79,14 +77,14 @@ function ResourceForm({
 
   return (
     <>
-      <Form id="resource-form" onSubmit={onSubmit}>
-        {resourceFields.map((resourceField, index) => {
+      <Form id="user-form" onSubmit={onSubmit}>
+        {userFields.map((userField, index) => {
           return (
             <InputField
               key={index}
-              name={resourceField.name}
-              inputType={resourceField.inputType}
-              stateValue={stateFields[resourceField.name]}
+              name={userField.name}
+              inputType={userField.inputType}
+              stateValue={stateFields[userField.name]}
               stateFields={stateFields}
               setStateFields={setStateFields}
               index={index}
@@ -102,19 +100,8 @@ function ResourceForm({
           Submit
         </Button>
       </Form>
-      <Link to="/">
-        <Button
-          onClick={() => {
-            setBackHome(true);
-          }}
-        >
-          Back To Home Page
-        </Button>
-      </Link>
-      {backHome && <Redirect to="/" push />}
-      {redirect && <Redirect to="/" push />}
     </>
   );
 }
 
-export default ResourceForm;
+export default UserForm;
