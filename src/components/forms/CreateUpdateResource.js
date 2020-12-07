@@ -1,9 +1,9 @@
 import React from "react";
 import ResourceForm from "./ResourceForm";
 
-import "./CreateUpdateDefinition.scss";
+import "./CreateUpdateResource.scss";
 
-function CreateUpdateDefinition({
+function CreateUpdateResource({
   match: { params },
   resourceName,
   resourceFields,
@@ -116,4 +116,4 @@ function CreateUpdateDefinition({
   );
 }
 
-export default CreateUpdateDefinition;
+export default CreateUpdateResource;

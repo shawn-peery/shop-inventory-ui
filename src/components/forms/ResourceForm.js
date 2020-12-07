@@ -13,6 +13,7 @@ function ResourceForm({
   redirect,
   setRedirect,
   params,
+  register,
   create,
 }) {
   const [backHome, setBackHome] = React.useState(false);

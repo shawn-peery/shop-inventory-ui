@@ -1,0 +1,10 @@
+[
+  {
+    "name": "username",
+    "inputType": "text"
+  },
+  {
+    "name": "password",
+    "inputType": "password"
+  }
+]
