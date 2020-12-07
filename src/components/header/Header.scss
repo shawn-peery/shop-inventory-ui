@@ -22,3 +22,19 @@
 .right-side {
   margin-right: 2rem;
 }
+
+#login-header,
+#logout-header {
+  color: $text-color;
+}
+
+a,
+a:hover,
+a:visited,
+a:link,
+a:active,
+#login-link,
+#logout-link,
+#main-logo-link {
+  text-decoration: none;
+}

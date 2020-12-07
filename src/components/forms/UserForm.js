@@ -9,18 +9,17 @@ function UserForm({
   userFields,
   stateFields,
   setStateFields,
-  redirect,
-  setRedirect,
-  params,
   register,
+  updateToken,
+  token,
 }) {
-  const [backHome, setBackHome] = React.useState(false);
-
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
   const REACT_APP_RESOURCE_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
     "<resource>",
     "users"
   );
+
+  const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
 
   function onSubmit(event) {
     event.preventDefault();
@@ -63,13 +62,11 @@ function UserForm({
       },
       body: JSON.stringify(bodyObj),
     }).then((result) => {
-      const authToken = result.headers.get("auth");
+      const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
 
-      localStorage.setItem("auth", authToken);
-      console.log("Applying token!");
+      localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
+      updateToken();
     });
-
-    setRedirect(true);
   }
 
   const inputFields = [];
@@ -86,6 +83,7 @@ function UserForm({
             <InputField
               key={index}
               name={userField.name}
+              inputType={userField.inputType}
               stateValue={stateFields[userField.name]}
               stateFields={stateFields}
               setStateFields={setStateFields}
@@ -102,17 +100,6 @@ function UserForm({
           Submit
         </Button>
       </Form>
-      <Link to="/">
-        <Button
-          onClick={() => {
-            setBackHome(true);
-          }}
-        >
-          Back To Home Page
-        </Button>
-      </Link>
-      {backHome && <Redirect to="/" push />}
-      {redirect && <Redirect to="/" push />}
     </>
   );
 }

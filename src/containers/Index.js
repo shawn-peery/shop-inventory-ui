@@ -19,6 +19,8 @@ import {
 import "./Index.scss";
 
 function Index({ resourceName, resourceFields }) {
+  const token = window.localStorage.getItem("auth");
+
   const [resources, setResources] = React.useState();
 
   const [maxColumnLengths, setMaxColumnLengths] = React.useState({});
@@ -51,9 +53,14 @@ function Index({ resourceName, resourceFields }) {
 
     console.log(`Fetching URL: ${url}`);
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        auth: token,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (resources === undefined && data[0]) {
           setResources(data);
 
@@ -162,7 +169,11 @@ function Index({ resourceName, resourceFields }) {
   }
 
   function handleTableData(resource, fieldName) {
-    return <td key={`${fieldName}-${resource._id}`}>{resource[fieldName]}</td>;
+    return (
+      <td key={`${fieldName}-${resource._id}`}>
+        {resource[fieldName].toString()}
+      </td>
+    );
   }
 
   function handleArrayTableData(fieldDataArray, fieldName) {

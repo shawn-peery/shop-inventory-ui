@@ -3,7 +3,15 @@ import UserForm from "./UserForm";
 
 import "./RegisterLoginUser.scss";
 
-function RegisterLoginUser({ match: { params }, userFields, register }) {
+import { Redirect } from "react-router-dom";
+
+function RegisterLoginUser({
+  match: { params },
+  userFields,
+  register,
+  updateToken,
+  token,
+}) {
   const [stateFields, setStateFields] = React.useState({});
 
   /*
@@ -19,18 +27,15 @@ function RegisterLoginUser({ match: { params }, userFields, register }) {
 
   */
 
-  const [redirect, setRedirect] = React.useState(false);
-
   return (
     <main>
       <UserForm
         userFields={userFields}
         stateFields={stateFields}
         setStateFields={setStateFields}
-        redirect={redirect}
-        setRedirect={setRedirect}
-        params={params}
         register={register}
+        updateToken={updateToken}
+        token={token}
       />
     </main>
   );

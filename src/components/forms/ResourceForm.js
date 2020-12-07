@@ -14,6 +14,7 @@ function ResourceForm({
   setRedirect,
   params,
   create,
+  token,
 }) {
   const [backHome, setBackHome] = React.useState(false);
 
@@ -60,6 +61,7 @@ function ResourceForm({
     fetch(url, {
       method: create ? "POST" : "PUT",
       headers: {
+        auth: token,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -83,6 +85,7 @@ function ResourceForm({
             <InputField
               key={index}
               name={resourceField.name}
+              inputType={resourceField.inputType}
               stateValue={stateFields[resourceField.name]}
               stateFields={stateFields}
               setStateFields={setStateFields}

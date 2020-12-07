@@ -21,7 +21,24 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
     resourceName.toLowerCase() + "s"
   );
 
-  const token = window.localStorage.getItem("auth");
+  const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
+    "<resource>",
+    // Perhaps in the future, will add functionality for resources that have differeing plural words
+    "user"
+  );
+
+  const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
+
+  console.log("REACT_APP_TOKEN_NAME");
+  console.log(REACT_APP_TOKEN_NAME);
+
+  const [token, setToken] = React.useState(
+    window.localStorage.getItem(REACT_APP_TOKEN_NAME)
+  );
+
+  function updateToken() {
+    setToken(window.localStorage.getItem(REACT_APP_TOKEN_NAME));
+  }
 
   return (
     <div>
@@ -29,7 +46,12 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
         // If token is present, show normal application
         token && (
           <Router>
-            <Route path="/" component={Header} />
+            <Route
+              path="/"
+              render={(props) => {
+                return <Header {...props} updateToken={updateToken} />;
+              }}
+            />
 
             <Route
               exact
@@ -76,6 +98,14 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                 );
               }}
             />
+
+            <Route exact path={`${REACT_APP_USER_API_BASE_URL}/login`}>
+              <Redirect push to="/" />
+            </Route>
+
+            <Route exact path={`${REACT_APP_USER_API_BASE_URL}/register`}>
+              <Redirect push to="/" />
+            </Route>
           </Router>
         )
       }
@@ -85,38 +115,42 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
         !token && (
           <Router>
             {/* Ensures that any user navigating to /users will automatically be taken the login page.*/}
-            <Route exact path="/api/users">
-              <Redirect to="/api/users/login" />
+            <Route exact path={REACT_APP_USER_API_BASE_URL}>
+              <Redirect to={`${REACT_APP_USER_API_BASE_URL}/login`} />
             </Route>
 
             {/* Ensures that any user navigating to / will automatically be taken the login page.*/}
             <Route exact path="/">
-              <Redirect to="/api/users/login" />
+              <Redirect to={`${REACT_APP_USER_API_BASE_URL}/login`} />
             </Route>
 
             <Route path="/" component={Header} />
 
             <Route
-              path="/api/users/register"
+              path={`${REACT_APP_USER_API_BASE_URL}/register`}
               render={(props) => {
                 return (
                   <RegisterLoginUser
                     {...props}
                     userFields={userFields}
                     register={true}
+                    updateToken={updateToken}
+                    token={token}
                   />
                 );
               }}
             />
 
             <Route
-              path="/api/users/login"
+              path={`${REACT_APP_USER_API_BASE_URL}/login`}
               render={(props) => {
                 return (
                   <RegisterLoginUser
                     {...props}
                     userFields={userFields}
                     register={false}
+                    updateToken={updateToken}
+                    token={token}
                   />
                 );
               }}

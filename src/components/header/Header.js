@@ -2,20 +2,52 @@ import React from "react";
 
 import "./Header.scss";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-function Header() {
+function Header({ updateToken }) {
+  const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
+  const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
+    "<resource>",
+    // Perhaps in the future, will add functionality for resources that have differeing plural words
+    "user"
+  );
+
+  const [redirect, setRedirect] = React.useState(false);
+  const [redirectTo, setRedirectTo] = React.useState("");
+
+  function logout() {
+    window.localStorage.removeItem(REACT_APP_TOKEN_NAME);
+    updateToken();
+    setRedirectTo(`${REACT_APP_USER_API_BASE_URL}/login`);
+    setRedirect(true);
+  }
+
+  function login() {
+    setRedirectTo("/");
+    setRedirect(true);
+  }
+
   return (
     <header id="page-header">
-      <Link to="/">
+      <Link id="main-logo-link" to="/">
         <div className="left-side">
           <h1>Learning Catalog</h1>
-          <h1>[IMAGE PLACE-HOLDER]</h1>
         </div>
       </Link>
-      <div className="right-side">
-        <h1>[IMAGE PLACE-HOLDER</h1>
-      </div>
+      {window.localStorage.getItem(REACT_APP_TOKEN_NAME) ? (
+        <a id="logout-link" href="">
+          <div className="right-side" onClick={logout}>
+            <h1 id="logout-header">Logout</h1>
+          </div>
+        </a>
+      ) : (
+        <a id="login-link" href="">
+          <div className="right-side" onClick={login}>
+            <h1 id="login-header">Login</h1>
+          </div>
+        </a>
+      )}
+      {redirect && <Redirect to={redirectTo} />}
     </header>
   );
 }
