@@ -1,5 +1,5 @@
 import React from "react";
-import ResourceForm from "./ResourceForm";
+import UserForm from "./UserForm";
 
 import "./RegisterLoginUser.scss";
 
@@ -21,16 +21,10 @@ function RegisterLoginUser({ match: { params }, userFields, register }) {
 
   const [redirect, setRedirect] = React.useState(false);
 
-  const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-  const REACT_APP_RESOURCE_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
-    "<resource>",
-    // Perhaps in the future, will add functionality for resources that have differeing plural words
-    resourceName.toLowerCase() + "s"
-  );
-
   return (
     <main>
-      <ResourceForm
+      <UserForm
+        userFields={userFields}
         stateFields={stateFields}
         setStateFields={setStateFields}
         redirect={redirect}

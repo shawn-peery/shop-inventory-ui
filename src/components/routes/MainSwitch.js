@@ -21,7 +21,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
     resourceName.toLowerCase() + "s"
   );
 
-  const token = window.localStorage.getItem("token");
+  const token = window.localStorage.getItem("auth");
 
   return (
     <div>
@@ -85,33 +85,19 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
         !token && (
           <Router>
             {/* Ensures that any user navigating to /users will automatically be taken the login page.*/}
-            <Route exact path="/users">
-              <Redirect to="/users/login" />
+            <Route exact path="/api/users">
+              <Redirect to="/api/users/login" />
             </Route>
 
             {/* Ensures that any user navigating to / will automatically be taken the login page.*/}
             <Route exact path="/">
-              <Redirect to="/users/login" />
+              <Redirect to="/api/users/login" />
             </Route>
 
             <Route path="/" component={Header} />
 
             <Route
-              exact
-              path="/users/login"
-              render={(props) => {
-                return (
-                  <Login
-                    {...props}
-                    resourceName={resourceName}
-                    resourceFields={resourceFields}
-                  />
-                );
-              }}
-            />
-
-            <Route
-              path="/users/register"
+              path="/api/users/register"
               render={(props) => {
                 return (
                   <RegisterLoginUser
@@ -124,7 +110,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
             />
 
             <Route
-              path="/users/login"
+              path="/api/users/login"
               render={(props) => {
                 return (
                   <RegisterLoginUser
