@@ -31,7 +31,7 @@ function Header({ updateToken }) {
     <header id="page-header">
       <Link id="main-logo-link" to="/">
         <div className="left-side">
-          <h1>Learning Catalog</h1>
+          <h1>Shop Inventory</h1>
         </div>
       </Link>
       {window.localStorage.getItem(REACT_APP_TOKEN_NAME) ? (
