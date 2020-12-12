@@ -5,6 +5,8 @@ import { Button } from "reactstrap";
 
 import { kebabToLowerCaseWithSpaces } from "../components/utils/StringStyleConverion";
 
+const token = window.localStorage.getItem("auth");
+
 function DeleteButton({
   resourceProp,
   updateDelete,
@@ -43,6 +45,9 @@ function DeleteButton({
       `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/${resource._id}`,
       {
         method: "DELETE",
+        headers: {
+          auth: token,
+        },
       }
     )
       .then((res) => res.text())
