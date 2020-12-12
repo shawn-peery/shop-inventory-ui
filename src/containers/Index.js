@@ -117,11 +117,9 @@ function Index({ resourceName, resourceFields }) {
       targetResources = resources;
     }
 
-    if (sortBy === "quantity") {
-      targetResources = targetResources.filter(
-        (resource) => resource.quantity >= quantityFilter
-      );
-    }
+    targetResources = targetResources.filter(
+      (resource) => resource.quantity >= quantityFilter
+    );
 
     // Sort
     targetResources = targetResources.sort((resource1, resource2) => {
@@ -275,7 +273,6 @@ function Index({ resourceName, resourceFields }) {
         <div className="filter-by-quantity">
           <div className="quantity">Minimum Quantity:</div>
           <input
-            disabled={sortBy !== "quantity"}
             value={quantityFilter}
             onChange={(e) => {
               setQuantityFilter(e.target.value);
