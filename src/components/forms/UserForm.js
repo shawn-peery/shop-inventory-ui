@@ -14,7 +14,7 @@ function UserForm({
   token,
 }) {
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-  const REACT_APP_RESOURCE_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
+  const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
     "<resource>",
     "users"
   );
@@ -49,9 +49,9 @@ function UserForm({
     let url;
 
     if (!register) {
-      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/login`;
+      url = `${REACT_APP_API_URL}${REACT_APP_USER_API_BASE_URL}/login`;
     } else {
-      url = `${REACT_APP_API_URL}${REACT_APP_RESOURCE_API_BASE_URL}/register`;
+      url = `${REACT_APP_API_URL}${REACT_APP_USER_API_BASE_URL}/register`;
     }
 
     fetch(url, {
@@ -68,12 +68,6 @@ function UserForm({
       updateToken();
     });
   }
-
-  const inputFields = [];
-
-  generateInputFields();
-
-  function generateInputFields() {}
 
   return (
     <>
@@ -97,8 +91,19 @@ function UserForm({
           className="submit-button"
           onClick={onSubmit}
         >
-          Submit
+          {register ? "Register" : "Login"}
         </Button>
+        <Link
+          to={
+            register
+              ? `${REACT_APP_USER_API_BASE_URL}/login`
+              : `${REACT_APP_USER_API_BASE_URL}/register`
+          }
+        >
+          <Button color="secondary" type="submit" className="alt-button">
+            {register ? "Login Instead" : "Register Instead"}
+          </Button>
+        </Link>
       </Form>
     </>
   );
