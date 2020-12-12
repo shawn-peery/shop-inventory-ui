@@ -26,6 +26,11 @@ function Index({ resourceName, resourceFields }) {
   const [resources, setResources] = React.useState();
 
   const [maxColumnLengths, setMaxColumnLengths] = React.useState({});
+
+  const [sortBy, setSortBy] = React.useState("active");
+
+  const [quantityFilter, setQuantityFilter] = React.useState(0);
+
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
   const REACT_APP_RESOURCE_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
     "<resource>",
@@ -111,6 +116,47 @@ function Index({ resourceName, resourceFields }) {
     } else {
       targetResources = resources;
     }
+
+    // Sort
+    targetResources = targetResources.sort((resource1, resource2) => {
+      switch (sortBy) {
+        case "inactive":
+          const isActive1i = resource1.isActive;
+          const isActive2i = resource2.isActive;
+
+          if (!isActive1i && isActive2i) {
+            return -1;
+          } else if (!isActive1i && !isActive2i) {
+            return 0;
+          } else {
+            return 1;
+          }
+          break;
+        case "active":
+          const isActive1a = resource1.isActive;
+          const isActive2a = resource2.isActive;
+
+          if (isActive1a && !isActive2a) {
+            return -1;
+          } else if (!isActive1a && !isActive2a) {
+            return 0;
+          } else {
+            return 1;
+          }
+          break;
+        case "quantity":
+          const quantity1 = resource1.quantity;
+          const quantity2 = resource2.quantity;
+
+          if (quantity1 > quantity2) {
+            return -1;
+          } else if (quantity1 === quantity2) {
+            return 0;
+          } else {
+            return 1;
+          }
+      }
+    });
 
     targetResources.forEach((resource) => {
       const resourceTableData = [];
@@ -199,9 +245,38 @@ function Index({ resourceName, resourceFields }) {
 
   return (
     <main>
-      <button type="button" onClick={onFilterButtonClick}>
-        {showArchived ? "Show Active" : "Show All"}
-      </button>
+      <div className="filter-options">
+        <div className="show-all-active-button">
+          <button type="button" onClick={onFilterButtonClick}>
+            {showArchived ? "Show Active" : "Show All"}
+          </button>
+        </div>
+        <div className="filter-by">
+          <div className="sort-by">Sort By:</div>
+          <select
+            value={sortBy}
+            onChange={(e) => {
+              setSortBy(e.target.value);
+            }}
+            name="filer-by"
+            className="filter-select"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">InActive</option>
+            <option value="quantity">Quantity</option>
+          </select>
+        </div>
+        <div className="filter-by-quantity">
+          <div className="quantity">Quantity:</div>
+          <input
+            value={quantityFilter}
+            onChange={(e) => {
+              setQuantityFilter(e.target.value);
+            }}
+            type="number"
+          />
+        </div>
+      </div>
 
       <table>
         <thead>
