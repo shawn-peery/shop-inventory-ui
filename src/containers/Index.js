@@ -117,6 +117,12 @@ function Index({ resourceName, resourceFields }) {
       targetResources = resources;
     }
 
+    if (sortBy === "quantity") {
+      targetResources = targetResources.filter(
+        (resource) => resource.quantity >= quantityFilter
+      );
+    }
+
     // Sort
     targetResources = targetResources.sort((resource1, resource2) => {
       switch (sortBy) {
@@ -247,9 +253,9 @@ function Index({ resourceName, resourceFields }) {
     <main>
       <div className="filter-options">
         <div className="show-all-active-button">
-          <button type="button" onClick={onFilterButtonClick}>
+          <Button color="info" type="button" onClick={onFilterButtonClick}>
             {showArchived ? "Show Active" : "Show All"}
-          </button>
+          </Button>
         </div>
         <div className="filter-by">
           <div className="sort-by">Sort By:</div>
@@ -262,13 +268,14 @@ function Index({ resourceName, resourceFields }) {
             className="filter-select"
           >
             <option value="active">Active</option>
-            <option value="inactive">InActive</option>
+            {showArchived && <option value="inactive">InActive</option>}
             <option value="quantity">Quantity</option>
           </select>
         </div>
         <div className="filter-by-quantity">
-          <div className="quantity">Quantity:</div>
+          <div className="quantity">Minimum Quantity:</div>
           <input
+            disabled={sortBy !== "quantity"}
             value={quantityFilter}
             onChange={(e) => {
               setQuantityFilter(e.target.value);
@@ -277,7 +284,6 @@ function Index({ resourceName, resourceFields }) {
           />
         </div>
       </div>
-
       <table>
         <thead>
           <tr>{fieldsObj.header}</tr>
