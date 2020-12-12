@@ -21,6 +21,8 @@ import "./Index.scss";
 function Index({ resourceName, resourceFields }) {
   const token = window.localStorage.getItem("auth");
 
+  const [showArchived, setShowArchived] = React.useState(false);
+
   const [resources, setResources] = React.useState();
 
   const [maxColumnLengths, setMaxColumnLengths] = React.useState({});
@@ -103,7 +105,14 @@ function Index({ resourceName, resourceFields }) {
   fieldsObj.header.push(<th key="delete-header">Delete</th>);
 
   if (resources !== undefined) {
-    resources.forEach((resource) => {
+    let targetResources;
+    if (!showArchived) {
+      targetResources = resources.filter((resource) => resource["isActive"]);
+    } else {
+      targetResources = resources;
+    }
+
+    targetResources.forEach((resource) => {
       const resourceTableData = [];
 
       resourceFields.forEach((resourceField) => {
@@ -184,8 +193,16 @@ function Index({ resourceName, resourceFields }) {
     });
   }
 
+  function onFilterButtonClick() {
+    setShowArchived(!showArchived);
+  }
+
   return (
     <main>
+      <button type="button" onClick={onFilterButtonClick}>
+        {showArchived ? "Show Active" : "Show All"}
+      </button>
+
       <table>
         <thead>
           <tr>{fieldsObj.header}</tr>
