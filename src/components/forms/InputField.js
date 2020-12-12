@@ -126,7 +126,10 @@ function InputField({
           <input
             id={name}
             key={`${name}-input`}
-            value={stateFields[name] || ""}
+            value={
+              stateFields[name] ||
+              (typeof stateFields[name] === "boolean" ? false : "")
+            }
             name={name}
             type={inputType}
             onChange={onChange}
