@@ -27,7 +27,18 @@ function InputField({
     setStateObjectProperty(stateFields, setStateFields, name, updatedArray);
   },
   onChange = (e) => {
-    setStateObjectProperty(stateFields, setStateFields, name, e.target.value);
+    let value = e.target.value;
+    if (value === "true" || value === "false") {
+      if (value === "true") {
+        value = true;
+      }
+      if (value === "false") {
+        value = false;
+      }
+      value = !value; // Invert Value
+    }
+
+    setStateObjectProperty(stateFields, setStateFields, name, value);
   },
 }) {
   const [isArray, setIsArray] = React.useState(false);
@@ -83,6 +94,10 @@ function InputField({
                   stateFields[name][index] ||
                   (typeof value === "boolean" ? false : "")
                 }
+                checked={
+                  stateFields[name][index] ||
+                  (typeof value === "boolean" ? false : "")
+                }
                 name={name}
                 type={inputType}
                 className="form-multi-input"
@@ -127,6 +142,10 @@ function InputField({
             id={name}
             key={`${name}-input`}
             value={
+              stateFields[name] ||
+              (typeof stateFields[name] === "boolean" ? false : "")
+            }
+            checked={
               stateFields[name] ||
               (typeof stateFields[name] === "boolean" ? false : "")
             }
