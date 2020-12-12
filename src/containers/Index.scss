@@ -15,3 +15,28 @@ td {
   padding: 1rem;
   text-align: center;
 }
+
+.filter-options {
+  display: flex;
+  justify-content: space-around;
+}
+
+.filter-by {
+  display: flex;
+}
+
+.sort-by {
+  border: 0.2rem solid $text-color;
+  padding: 0.2rem;
+  margin-right: 1rem;
+}
+
+.filter-by-quantity {
+  display: flex;
+}
+
+.quantity {
+  border: 0.2rem solid $text-color;
+  padding: 0.2rem;
+  margin-right: 1rem;
+}
