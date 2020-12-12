@@ -72,12 +72,17 @@ function InputField({
       {isArray &&
         isArray !== undefined &&
         stateFields[name].map((resource, index) => {
+          const value = stateFields[name][index];
+
           return (
             <React.Fragment>
               <input
                 id={name}
                 key={`${name}-${index}-input`}
-                value={stateFields[name][index] || ""}
+                value={
+                  stateFields[name][index] ||
+                  (typeof value === "boolean" ? false : "")
+                }
                 name={name}
                 type={inputType}
                 className="form-multi-input"
@@ -121,7 +126,10 @@ function InputField({
           <input
             id={name}
             key={`${name}-input`}
-            value={stateFields[name] || ""}
+            value={
+              stateFields[name] ||
+              (typeof stateFields[name] === "boolean" ? false : "")
+            }
             name={name}
             type={inputType}
             onChange={onChange}
