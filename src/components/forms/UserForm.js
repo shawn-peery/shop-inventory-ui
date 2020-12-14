@@ -64,6 +64,13 @@ function UserForm({
     }).then((result) => {
       const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
 
+      if (authToken === null) {
+        let alertMsg = "";
+        alertMsg = register ? "Invalid fields!" : "Invalid credentials!";
+        alert(alertMsg);
+        return;
+      }
+
       localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
       updateToken();
     });
@@ -76,8 +83,7 @@ function UserForm({
           return (
             <InputField
               key={index}
-              name={userField.name}
-              inputType={userField.inputType}
+              resourceField={userField}
               stateValue={stateFields[userField.name]}
               stateFields={stateFields}
               setStateFields={setStateFields}
