@@ -15,16 +15,22 @@ import { Label, Button } from "reactstrap";
  */
 
 function InputField({
-  name,
+  // name,
   stateValue,
   stateFields,
   setStateFields,
-  inputType,
+  // inputType,
+  resourceField,
   index,
   onArrayChange = (e, index) => {
     const updatedArray = [...stateValue];
     updatedArray[index] = e.target.value;
-    setStateObjectProperty(stateFields, setStateFields, name, updatedArray);
+    setStateObjectProperty(
+      stateFields,
+      setStateFields,
+      resourceField.name,
+      updatedArray
+    );
   },
   onChange = (e) => {
     let value = e.target.value;
@@ -38,7 +44,12 @@ function InputField({
       value = !value; // Invert Value
     }
 
-    setStateObjectProperty(stateFields, setStateFields, name, value);
+    setStateObjectProperty(
+      stateFields,
+      setStateFields,
+      resourceField.name,
+      value
+    );
   },
 }) {
   const [isArray, setIsArray] = React.useState(false);
@@ -57,7 +68,12 @@ function InputField({
 
     updatedArray.push("");
 
-    setStateObjectProperty(stateFields, setStateFields, name, updatedArray);
+    setStateObjectProperty(
+      stateFields,
+      setStateFields,
+      resourceField.name,
+      updatedArray
+    );
   }
 
   function handleArrayDeleteElement(event) {
@@ -70,50 +86,66 @@ function InputField({
     const updatedArray = [...stateValue];
     updatedArray.pop();
 
-    setStateObjectProperty(stateFields, setStateFields, name, updatedArray);
+    setStateObjectProperty(
+      stateFields,
+      setStateFields,
+      resourceField.name,
+      updatedArray
+    );
   }
 
   return (
-    <React.Fragment key={`${name}-${index}-main-fragment-combo`}>
+    <React.Fragment key={`${resourceField.name}-${index}-main-fragment-combo`}>
       {isArray && isArray !== undefined && (
-        <Label key={`${name}-${index}-array-label`} htmlFor={name}>
-          {name}
+        <Label
+          key={`${resourceField.name}-${index}-array-label`}
+          htmlFor={resourceField.name}
+        >
+          {resourceField.name}
+          {resourceField.currency !== undefined ? (
+            <> ({resourceField.currency})</>
+          ) : (
+            ""
+          )}
         </Label>
       )}
       {isArray &&
         isArray !== undefined &&
-        stateFields[name].map((resource, index) => {
-          const value = stateFields[name][index];
+        stateFields[resourceField.name].map((resource, index) => {
+          const value = stateFields[resourceField.name][index];
 
           return (
             <React.Fragment>
+              {resourceField.currency !== undefined
+                ? resourceField.currency
+                : ""}
               <input
-                id={name}
-                key={`${name}-${index}-input`}
+                id={resourceField.name}
+                key={`${resourceField.name}-${index}-input`}
                 value={
-                  stateFields[name][index] ||
+                  stateFields[resourceField.name][index] ||
                   (typeof value === "boolean" ? false : "")
                 }
                 checked={
-                  stateFields[name][index] ||
+                  stateFields[resourceField.name][index] ||
                   (typeof value === "boolean" ? false : "")
                 }
-                name={name}
-                type={inputType}
+                name={resourceField.name}
+                type={resourceField.inputType}
                 className="form-multi-input"
                 onChange={(event) => {
                   onArrayChange(event, index);
                 }}
-                data-form-group={name}
+                data-form-group={resourceField.name}
               />
 
               {index === stateValue.length - 1 && (
                 <div
-                  key={`${name}-${index}-buttons-div`}
+                  key={`${resourceField.name}-${index}-buttons-div`}
                   className="button-container"
                 >
                   <Button
-                    key={`${name}-${index}-add-button`}
+                    key={`${resourceField.name}-${index}-add-button`}
                     color="success"
                     type="button"
                     onClick={handleArrayAddElement}
@@ -121,7 +153,7 @@ function InputField({
                     Add
                   </Button>
                   <Button
-                    key={`${name}-${index}-delete-button`}
+                    key={`${resourceField.name}-${index}-delete-button`}
                     color="danger"
                     type="button"
                     onClick={handleArrayDeleteElement}
@@ -134,23 +166,37 @@ function InputField({
           );
         })}
       {!isArray && isArray !== undefined && (
-        <React.Fragment key={`${name}-${index}-label-input-combo`}>
-          <Label key={`${name}-label`} htmlFor={name}>
-            {name}
+        <React.Fragment
+          key={`${resourceField.name}-${index}-label-input-combo`}
+        >
+          <Label
+            key={`${resourceField.name}-label`}
+            htmlFor={resourceField.name}
+          >
+            {resourceField.name}
+            {resourceField.currency !== undefined ? (
+              <> ({resourceField.currency})</>
+            ) : (
+              ""
+            )}
           </Label>
           <input
-            id={name}
-            key={`${name}-input`}
+            id={resourceField.name}
+            key={`${resourceField.name}-input`}
             value={
-              stateFields[name] ||
-              (typeof stateFields[name] === "boolean" ? false : "")
+              stateFields[resourceField.name] ||
+              (typeof stateFields[resourceField.name] === "boolean"
+                ? false
+                : "")
             }
             checked={
-              stateFields[name] ||
-              (typeof stateFields[name] === "boolean" ? false : "")
+              stateFields[resourceField.name] ||
+              (typeof stateFields[resourceField.name] === "boolean"
+                ? false
+                : "")
             }
-            name={name}
-            type={inputType}
+            name={resourceField.name}
+            type={resourceField.inputType}
             onChange={onChange}
           />
         </React.Fragment>
