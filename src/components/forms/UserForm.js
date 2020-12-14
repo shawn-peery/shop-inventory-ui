@@ -79,18 +79,22 @@ function UserForm({
   return (
     <>
       <Form id="user-form" onSubmit={onSubmit}>
-        {userFields.map((userField, index) => {
-          return (
-            <InputField
-              key={index}
-              resourceField={userField}
-              stateValue={stateFields[userField.name]}
-              stateFields={stateFields}
-              setStateFields={setStateFields}
-              index={index}
-            />
-          );
-        })}
+        {userFields
+          .filter((userField) => userField.name !== "email")
+          .map((userField, index) => {
+            userField.name =
+              userField.name === "username" ? "username/email" : userField.name;
+            return (
+              <InputField
+                key={index}
+                resourceField={userField}
+                stateValue={stateFields[userField.name]}
+                stateFields={stateFields}
+                setStateFields={setStateFields}
+                index={index}
+              />
+            );
+          })}
         <Button
           color="primary"
           type="submit"
