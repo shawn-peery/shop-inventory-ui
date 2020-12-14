@@ -4,6 +4,10 @@
     "inputType": "text"
   },
   {
+    "name": "email",
+    "inputType": "email"
+  },
+  {
     "name": "password",
     "inputType": "password"
   }

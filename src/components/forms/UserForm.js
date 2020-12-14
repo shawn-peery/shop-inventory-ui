@@ -64,6 +64,13 @@ function UserForm({
     }).then((result) => {
       const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
 
+      if (authToken === null) {
+        let alertMsg = "";
+        alertMsg = register ? "Invalid fields!" : "Invalid credentials!";
+        alert(alertMsg);
+        return;
+      }
+
       localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
       updateToken();
     });
@@ -72,19 +79,22 @@ function UserForm({
   return (
     <>
       <Form id="user-form" onSubmit={onSubmit}>
-        {userFields.map((userField, index) => {
-          return (
-            <InputField
-              key={index}
-              name={userField.name}
-              inputType={userField.inputType}
-              stateValue={stateFields[userField.name]}
-              stateFields={stateFields}
-              setStateFields={setStateFields}
-              index={index}
-            />
-          );
-        })}
+        {userFields
+          .filter((userField) => userField.name !== "email")
+          .map((userField, index) => {
+            userField.name =
+              userField.name === "username" ? "username/email" : userField.name;
+            return (
+              <InputField
+                key={index}
+                resourceField={userField}
+                stateValue={stateFields[userField.name]}
+                stateFields={stateFields}
+                setStateFields={setStateFields}
+                index={index}
+              />
+            );
+          })}
         <Button
           color="primary"
           type="submit"
