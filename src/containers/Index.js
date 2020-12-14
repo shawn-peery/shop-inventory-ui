@@ -176,7 +176,7 @@ function Index({ resourceName, resourceFields }) {
           resourceTableData.push(tableData);
         } else {
           count++;
-          resourceTableData.push(handleTableData(resource, resourceField.name));
+          resourceTableData.push(handleTableData(resource, resourceField));
         }
         for (; count < maxColumnLengths[resourceField.name]; count++) {
           resourceTableData.push(
@@ -227,10 +227,14 @@ function Index({ resourceName, resourceFields }) {
     );
   }
 
-  function handleTableData(resource, fieldName) {
+  function handleTableData(resource, resourceField) {
+    console.log("ResourceField");
+    console.log(resourceField);
+    const resourceFieldName = resourceField.name;
     return (
-      <td key={`${fieldName}-${resource._id}`}>
-        {resource[fieldName].toString()}
+      <td key={`${resourceFieldName}-${resource._id}`}>
+        {resourceField.currency !== undefined ? resourceField.currency : ""}
+        {resource[resourceFieldName].toString()}
       </td>
     );
   }

@@ -5,7 +5,8 @@
   },
   {
     "name": "price",
-    "inputType": "number"
+    "inputType": "number",
+    "currency": "$"
   },
   {
     "name": "description",
