@@ -9,8 +9,10 @@ function Header({ updateToken }) {
   const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
     "<resource>",
     // Perhaps in the future, will add functionality for resources that have differeing plural words
-    "user"
+    "users"
   );
+
+  const REACT_APP_USER_TOKEN_NAME = process.env.REACT_APP_USER_TOKEN_NAME;
 
   const [redirect, setRedirect] = React.useState(false);
   const [redirectTo, setRedirectTo] = React.useState("");
@@ -34,6 +36,18 @@ function Header({ updateToken }) {
           <h1>Shop Inventory</h1>
         </div>
       </Link>
+      {window.localStorage.getItem(REACT_APP_TOKEN_NAME) && (
+        <Link
+          to={`${REACT_APP_USER_API_BASE_URL}/profiles/${
+            JSON.parse(window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME))
+              ._id
+          }`}
+        >
+          <div>
+            <h1>User Profile</h1>
+          </div>
+        </Link>
+      )}
       {window.localStorage.getItem(REACT_APP_TOKEN_NAME) ? (
         <a id="logout-link" href="">
           <div className="right-side" onClick={logout}>

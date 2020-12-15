@@ -9,6 +9,8 @@ import Login from "../../containers/Login";
 import Register from "../../containers/Register";
 import CreateUpdateResource from "../forms/CreateUpdateResource";
 
+import UserProfile from "../../containers/UserProfile";
+
 import RegisterLoginUser from "../forms/RegisterLoginUser";
 
 import { capitalizeWord } from "../../components/utils/StringStyleConverion";
@@ -29,12 +31,22 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
 
   const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
 
+  const REACT_APP_USER_TOKEN_NAME = process.env.REACT_APP_USER_TOKEN_NAME;
+
   console.log("REACT_APP_TOKEN_NAME");
   console.log(REACT_APP_TOKEN_NAME);
 
   const [token, setToken] = React.useState(
     window.localStorage.getItem(REACT_APP_TOKEN_NAME)
   );
+
+  const [userObj, setUserObj] = React.useState(
+    window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME)
+  );
+
+  function updateUserObj() {
+    setToken(window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME));
+  }
 
   function updateToken() {
     setToken(window.localStorage.getItem(REACT_APP_TOKEN_NAME));
@@ -106,6 +118,10 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
             <Route exact path={`${REACT_APP_USER_API_BASE_URL}/register`}>
               <Redirect push to="/" />
             </Route>
+
+            <Route exact path={`${REACT_APP_USER_API_BASE_URL}/profiles/:id`}>
+              <UserProfile />
+            </Route>
           </Router>
         )
       }
@@ -135,6 +151,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                     userFields={userFields}
                     register={true}
                     updateToken={updateToken}
+                    updateUserObj={updateUserObj}
                     token={token}
                   />
                 );
@@ -150,6 +167,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                     userFields={userFields}
                     register={false}
                     updateToken={updateToken}
+                    updateUserObj={updateUserObj}
                     token={token}
                   />
                 );
