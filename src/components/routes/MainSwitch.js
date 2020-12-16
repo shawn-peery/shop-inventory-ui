@@ -44,7 +44,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
     window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME)
   );
 
-  function updateUserObj() {
+  function updateUserId() {
     setToken(window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME));
   }
 
@@ -151,7 +151,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                     userFields={userFields}
                     register={true}
                     updateToken={updateToken}
-                    updateUserObj={updateUserObj}
+                    updateUserId={updateUserId}
                     token={token}
                   />
                 );
@@ -167,7 +167,7 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                     userFields={userFields}
                     register={false}
                     updateToken={updateToken}
-                    updateUserObj={updateUserObj}
+                    updateUserId={updateUserId}
                     token={token}
                   />
                 );

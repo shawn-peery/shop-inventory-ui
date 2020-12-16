@@ -11,7 +11,7 @@ function UserForm({
   setStateFields,
   register,
   updateToken,
-  updateUserObj,
+  updateUserId,
   token,
 }) {
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
@@ -81,15 +81,16 @@ function UserForm({
       })
       .then((result) => {
         if (result === undefined) {
+          localStorage.removeItem(REACT_APP_TOKEN_NAME);
           return;
         }
 
         console.log("LOGGING RESULT!");
         console.log(result);
 
-        localStorage.setItem(REACT_APP_USER_TOKEN_NAME, JSON.stringify(result));
+        localStorage.setItem(REACT_APP_USER_TOKEN_NAME, result._id); // Only storing the user's ID in the JWT
 
-        updateUserObj();
+        updateUserId();
         updateToken();
       });
   }

@@ -14,6 +14,7 @@ function Header({ updateToken }) {
 
   const REACT_APP_USER_TOKEN_NAME = process.env.REACT_APP_USER_TOKEN_NAME;
 
+  console.log("TEST");
   const [redirect, setRedirect] = React.useState(false);
   const [redirectTo, setRedirectTo] = React.useState("");
 
@@ -38,10 +39,9 @@ function Header({ updateToken }) {
       </Link>
       {window.localStorage.getItem(REACT_APP_TOKEN_NAME) && (
         <Link
-          to={`${REACT_APP_USER_API_BASE_URL}/profiles/${
-            JSON.parse(window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME))
-              ._id
-          }`}
+          to={`${REACT_APP_USER_API_BASE_URL}/profiles/${window.localStorage.getItem(
+            REACT_APP_USER_TOKEN_NAME
+          )}`}
         >
           <div>
             <h1>User Profile</h1>

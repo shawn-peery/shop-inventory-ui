@@ -7,20 +7,24 @@ const REACT_APP_USER_TOKEN_NAME = process.env.REACT_APP_USER_TOKEN_NAME;
 import { useParams } from "react-router-dom";
 
 function UserProfile(props) {
-  let { id } = useParams();
+  let { id: targetId } = useParams();
   const userObj = JSON.parse(
     window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME)
   );
 
-  const currentId = userObj._id;
+  console.log("userObj");
+  console.log(userObj);
 
-  console.log("currentId");
-  console.log(currentId);
+  console.log("userId");
+  console.log(userObj._id);
 
-  console.log("id");
-  console.log(id);
+  console.log("userId");
+  console.log(userObj._id);
 
-  if (currentId !== id) {
+  console.log("targetId");
+  console.log(targetId);
+
+  if (userObj._id !== targetId) {
     return (
       <h1 className="cant-see-message">
         You don't have access to see this user's profile!
