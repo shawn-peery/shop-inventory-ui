@@ -10,6 +10,7 @@ function RegisterLoginUser({
   userFields,
   register,
   updateToken,
+  updateUserId,
   token,
 }) {
   const [stateFields, setStateFields] = React.useState({});
@@ -35,6 +36,7 @@ function RegisterLoginUser({
         setStateFields={setStateFields}
         register={register}
         updateToken={updateToken}
+        updateUserId={updateUserId}
         token={token}
       />
     </main>
