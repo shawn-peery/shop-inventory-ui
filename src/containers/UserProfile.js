@@ -16,7 +16,7 @@ import { useParams } from "react-router-dom";
 
 function UserProfile({ token }) {
   const [user, setUser] = React.useState();
-  const [canSee, setCanSee] = React.useState(false);
+  const [canSee, setCanSee] = React.useState();
 
   let { id: targetId } = useParams();
   const userId = window.localStorage.getItem(REACT_APP_USER_TOKEN_NAME);
@@ -52,15 +52,19 @@ function UserProfile({ token }) {
       .catch((err) => {
         console.log("Logging error:");
         console.error(err);
+        setUser(null);
         setCanSee(false);
       });
   }, []);
 
-  if (!canSee) {
+  console.log("user");
+  console.log(user);
+
+  if (user === undefined) {
     return (
-      <h1 className="cant-see-message">
-        You don't have access to see this user's profile!
-      </h1>
+      <main>
+        <h1 className="loading-message">Loading...</h1>
+      </main>
     );
   }
 
@@ -78,6 +82,14 @@ function UserProfile({ token }) {
           </div>
         )}
       </main>
+    );
+  }
+
+  if (!canSee) {
+    return (
+      <h1 className="cant-see-message">
+        You don't have access to see this user's profile!
+      </h1>
     );
   }
 }
