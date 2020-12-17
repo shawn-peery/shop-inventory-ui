@@ -11,6 +11,7 @@ function UserForm({
   setStateFields,
   register,
   updateToken,
+  updateUserId,
   token,
 }) {
   const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
@@ -20,6 +21,7 @@ function UserForm({
   );
 
   const REACT_APP_TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME;
+  const REACT_APP_USER_TOKEN_NAME = process.env.REACT_APP_USER_TOKEN_NAME;
 
   function onSubmit(event) {
     event.preventDefault();
@@ -61,33 +63,58 @@ function UserForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyObj),
-    }).then((result) => {
-      const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
+    })
+      .then((result) => {
+        const authToken = result.headers.get(REACT_APP_TOKEN_NAME);
+        console.log("result json");
+        console.log(result);
 
-      if (authToken === null) {
-        let alertMsg = "";
-        alertMsg = register ? "Invalid fields!" : "Invalid credentials!";
-        alert(alertMsg);
-        return;
-      }
+        if (authToken === null || authToken === undefined) {
+          let alertMsg = "";
+          alertMsg = register ? "Invalid fields!" : "Invalid credentials!";
+          alert(alertMsg);
+          return;
+        }
 
-      localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
-      updateToken();
-    });
+        localStorage.setItem(REACT_APP_TOKEN_NAME, authToken);
+        return result.json();
+      })
+      .then((result) => {
+        if (result === undefined) {
+          localStorage.removeItem(REACT_APP_TOKEN_NAME);
+          return;
+        }
+
+        console.log("LOGGING RESULT!");
+        console.log(result);
+
+        localStorage.setItem(REACT_APP_USER_TOKEN_NAME, result._id); // Only storing the user's ID in the JWT
+
+        updateUserId();
+        updateToken();
+      });
   }
 
   return (
     <>
       <Form id="user-form" onSubmit={onSubmit}>
         {userFields
-          .filter((userField) => userField.name !== "email")
+          .filter((userField) => {
+            return register || userField.name !== "email";
+          })
           .map((userField, index) => {
-            userField.name =
-              userField.name === "username" ? "username/email" : userField.name;
+            let name = userField.name;
+            if (!register) {
+              name =
+                userField.name === "username"
+                  ? "username/email"
+                  : userField.name;
+            }
             return (
               <InputField
                 key={index}
-                resourceField={userField}
+                name={name}
+                inputType={userField.inputType}
                 stateValue={stateFields[userField.name]}
                 stateFields={stateFields}
                 setStateFields={setStateFields}

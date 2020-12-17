@@ -84,7 +84,9 @@ function ResourceForm({
           return (
             <InputField
               key={index}
-              resourceField={resourceField}
+              name={resourceField.name}
+              inputType={resourceField.inputType}
+              currency={resourceField.currency}
               stateValue={stateFields[resourceField.name]}
               stateFields={stateFields}
               setStateFields={setStateFields}
