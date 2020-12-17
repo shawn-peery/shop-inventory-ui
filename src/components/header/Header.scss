@@ -1,5 +1,17 @@
 @import "../../style-variables/variables.scss";
 
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #page-header {
   background-color: $header-background-color;
   display: flex;
@@ -15,26 +27,6 @@
   margin-left: 2rem;
 }
 
-.left-side > h1 {
-  color: $text-color;
-}
-
 .right-side {
   margin-right: 2rem;
-}
-
-#login-header,
-#logout-header {
-  color: $text-color;
-}
-
-a,
-a:hover,
-a:visited,
-a:link,
-a:active,
-#login-link,
-#logout-link,
-#main-logo-link {
-  text-decoration: none;
 }
