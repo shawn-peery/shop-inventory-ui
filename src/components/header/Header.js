@@ -49,17 +49,21 @@ function Header({ updateToken }) {
         </Link>
       )}
       {window.localStorage.getItem(REACT_APP_TOKEN_NAME) ? (
-        <a id="logout-link" href="">
-          <div className="right-side" onClick={logout}>
+        <Link
+          to={`${REACT_APP_USER_API_BASE_URL}/login`}
+          id="logout-link"
+          onClick={logout}
+        >
+          <div className="right-side">
             <h1 id="logout-header">Logout</h1>
           </div>
-        </a>
+        </Link>
       ) : (
-        <a id="login-link" href="">
-          <div className="right-side" onClick={login}>
+        <Link to="/" id="login-link" onClick={login}>
+          <div className="right-side">
             <h1 id="login-header">Login</h1>
           </div>
-        </a>
+        </Link>
       )}
       {redirect && <Redirect to={redirectTo} />}
     </header>
