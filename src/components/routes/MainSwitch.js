@@ -119,9 +119,12 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
               <Redirect push to="/" />
             </Route>
 
-            <Route exact path={`${REACT_APP_USER_API_BASE_URL}/profiles/:id`}>
-              <UserProfile />
-            </Route>
+            <Route
+              path={`${REACT_APP_USER_API_BASE_URL}/profiles/:id`}
+              render={(props) => {
+                return <UserProfile {...props} token={token} />;
+              }}
+            />
           </Router>
         )
       }

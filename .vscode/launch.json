@@ -9,6 +9,14 @@
       "webRoot": "${workspaceRoot}/src"
     },
     {
+      "name": "(C) Launch Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceRoot}/src",
+      "userDataDir": false
+    },
+    {
       "name": "Attach Chrome",
       "type": "chrome",
       "request": "attach",
