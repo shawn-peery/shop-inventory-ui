@@ -127,9 +127,22 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
               }}
             />
 
-            <Route path={`${REACT_APP_USER_API_BASE_URL}/cart`}>
-              <Cart />
-            </Route>
+            <Route
+              exact
+              path={`${REACT_APP_USER_API_BASE_URL}/cart`}
+              render={(props) => {
+                return <Cart {...props} />;
+              }}
+            ></Route>
+
+            <Route
+              path={`${REACT_APP_USER_API_BASE_URL}/add${capitalizeWord(
+                resourceName
+              )}ToCart/:id`}
+              render={(props) => {
+                return <Cart {...props} />;
+              }}
+            ></Route>
           </Router>
         )
       }

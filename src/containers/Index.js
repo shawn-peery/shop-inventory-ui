@@ -190,6 +190,18 @@ function Index({ resourceName, resourceFields }) {
       resourceTableData.push(
         <td key={`${resource._id}-update`}>
           <Link
+            to={`${REACT_APP_RESOURCE_API_BASE_URL}/add${capitalizeWord(
+              resourceName
+            )}ToCart/${encodeURI(resource._id)}`}
+          >
+            <Button color="success">Add To Cart</Button>
+          </Link>
+        </td>
+      );
+
+      resourceTableData.push(
+        <td key={`${resource._id}-update`}>
+          <Link
             to={`${REACT_APP_RESOURCE_API_BASE_URL}/update${capitalizeWord(
               resourceName
             )}/${encodeURI(resource._id)}`}
