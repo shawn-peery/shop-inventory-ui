@@ -48,6 +48,13 @@ function Header({ updateToken }) {
           </div>
         </Link>
       )}
+      {window.localStorage.getItem(REACT_APP_TOKEN_NAME) && (
+        <Link to={`${REACT_APP_USER_API_BASE_URL}/cart`}>
+          <div>
+            <h1>Cart</h1>
+          </div>
+        </Link>
+      )}
       {window.localStorage.getItem(REACT_APP_TOKEN_NAME) ? (
         <Link
           to={`${REACT_APP_USER_API_BASE_URL}/login`}

@@ -5,8 +5,9 @@ import Header from "../header/Header";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import Index from "../../containers/Index";
-import Login from "../../containers/Login";
-import Register from "../../containers/Register";
+
+import Cart from "../../containers/Cart";
+
 import CreateUpdateResource from "../forms/CreateUpdateResource";
 
 import UserProfile from "../../containers/UserProfile";
@@ -125,6 +126,10 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
                 return <UserProfile {...props} token={token} />;
               }}
             />
+
+            <Route path={`${REACT_APP_USER_API_BASE_URL}/cart`}>
+              <Cart />
+            </Route>
           </Router>
         )
       }
