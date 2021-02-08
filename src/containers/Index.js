@@ -38,6 +38,12 @@ function Index({ resourceName, resourceFields }) {
     resourceName.toLowerCase() + "s"
   );
 
+  const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
+    "<resource>",
+    // Perhaps in the future, will add functionality for resources that have differeing plural words
+    "users"
+  );
+
   /* 
 
     Contains the maximum length of grouped categories.
@@ -188,9 +194,9 @@ function Index({ resourceName, resourceFields }) {
       });
 
       resourceTableData.push(
-        <td key={`${resource._id}-update`}>
+        <td key={`${resource._id}-add-to-cart`}>
           <Link
-            to={`${REACT_APP_RESOURCE_API_BASE_URL}/add${capitalizeWord(
+            to={`${REACT_APP_USER_API_BASE_URL}/add${capitalizeWord(
               resourceName
             )}ToCart/${encodeURI(resource._id)}`}
           >
