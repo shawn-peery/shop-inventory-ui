@@ -165,6 +165,17 @@ function Index({ resourceName, resourceFields }) {
 					} else {
 						return 1;
 					}
+				case "price":
+					const price1 = resource1.price;
+					const price2 = resource2.price;
+
+					if (price1 > price2) {
+						return -1;
+					} else if (price1 === price2) {
+						return 0;
+					} else {
+						return 1;
+					}
 			}
 		});
 
@@ -291,6 +302,7 @@ function Index({ resourceName, resourceFields }) {
 						name="filer-by"
 						className="filter-select"
 					>
+						<option value="price">Price</option>
 						<option value="active">Active</option>
 						{showArchived && <option value="inactive">InActive</option>}
 						<option value="quantity">Quantity</option>
