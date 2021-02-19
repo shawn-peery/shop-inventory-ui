@@ -112,6 +112,7 @@ function Index({ resourceName, resourceFields }) {
 		return handleFieldHeaders(resourceField);
 	});
 
+	fieldsObj.header.push(<th key="addToCart-header">Add To Cart</th>);
 	fieldsObj.header.push(<th key="update-header">Update</th>);
 	fieldsObj.header.push(<th key="delete-header">Delete</th>);
 
