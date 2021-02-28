@@ -1,42 +1,44 @@
 @import "../style-variables/variables.scss";
 
 table {
-  margin: 1rem;
-  border: 1px solid black;
-  border-collapse: collapse;
-  width: 100%;
-  height: 100%;
+	margin: 1rem;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 100%;
+	height: 100%;
 }
 
 th,
 td {
-  background-color: $highlight-color;
-  border: 1px solid black;
-  padding: 1rem;
-  text-align: center;
+	background-color: $highlight-color;
+	border: 1px solid black;
+	padding: 1rem;
+	text-align: center;
 }
 
 .filter-options {
-  display: flex;
-  justify-content: space-around;
+	display: flex;
+	justify-content: space-around;
 }
 
 .filter-by {
-  display: flex;
+	display: flex;
 }
 
 .sort-by {
-  border: 0.2rem solid $text-color;
-  padding: 0.2rem;
-  margin-right: 1rem;
+	border: 0.2rem solid $text-color;
+	padding: 0.2rem;
+	margin-right: 1rem;
+	background-color: $main-background-color;
 }
 
 .filter-by-quantity {
-  display: flex;
+	display: flex;
 }
 
 .quantity {
-  border: 0.2rem solid $text-color;
-  padding: 0.2rem;
-  margin-right: 1rem;
+	border: 0.2rem solid $text-color;
+	padding: 0.2rem;
+	margin-right: 1rem;
+	background-color: $main-background-color;
 }

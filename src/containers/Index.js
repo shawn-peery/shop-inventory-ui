@@ -287,7 +287,12 @@ function Index({ resourceName, resourceFields }) {
 		<main>
 			<div className="filter-options">
 				<div className="show-all-active-button">
-					<button color="info" type="button" onClick={onFilterButtonClick}>
+					<button
+						color="info"
+						type="button"
+						onClick={onFilterButtonClick}
+						value="HELLO"
+					>
 						{showArchived ? "Show Active" : "Show All"}
 					</button>
 				</div>
