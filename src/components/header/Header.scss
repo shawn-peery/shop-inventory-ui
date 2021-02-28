@@ -1,5 +1,9 @@
 @import "../../style-variables/variables.scss";
 
+body a {
+	color: $general-link-color;
+}
+
 button {
 	background: none;
 	border: none;
