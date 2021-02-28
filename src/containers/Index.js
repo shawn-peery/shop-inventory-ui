@@ -24,6 +24,17 @@ function Index({ resourceName, resourceFields }) {
 	const [resources, setResources] = React.useState();
 
 	const [maxColumnLengths, setMaxColumnLengths] = React.useState({});
+	/* 
+
+    Contains the maximum length of grouped categories.
+    This allows us to correctly layout the table.
+
+    {
+        artists: 3
+        supporters: 4
+    }
+
+  */
 
 	const [sortBy, setSortBy] = React.useState("active");
 
@@ -42,18 +53,6 @@ function Index({ resourceName, resourceFields }) {
 		"users"
 	);
 
-	/* 
-
-    Contains the maximum length of grouped categories.
-    This allows us to correctly layout the table.
-
-    {
-        artists: 3
-        supporters: 4
-    }
-
-  */
-
 	React.useEffect(function () {
 		handleFetchingData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,31 +69,39 @@ function Index({ resourceName, resourceFields }) {
 			},
 		})
 			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-				if (resources === undefined && data[0]) {
-					setResources(data);
+			.then(handleFetchingDataResponse);
+	}
 
-					Object.keys(data[0])
-						.filter((field) => Array.isArray(data[0][field]))
-						.forEach((field) => {
-							let maxFieldLength = 0;
+	// handleFetchingData Helper Function 1
+	function handleFetchingDataResponse(data) {
+		if (resources !== undefined || !data[0]) {
+			return;
+		}
+		setResources(data);
 
-							data.forEach((resource) => {
-								if (resource[field].length > maxFieldLength) {
-									maxFieldLength = resource[field].length;
-								}
-							});
+		Object.keys(data[0])
+			// This algorithm assumes that the fields for each entry are identical. This allows us to rely on the first
+			// data entry for fields
+			.filter((field) => Array.isArray(data[0][field]))
+			.forEach(updateMaxFieldLength);
+	}
 
-							setStateObjectProperty(
-								maxColumnLengths,
-								setMaxColumnLengths,
-								field,
-								maxFieldLength
-							);
-						});
-				}
-			});
+	// handleFetchingData Helper Function 2
+	function updateMaxFieldLength(field) {
+		let maxFieldLength = 0;
+
+		data.forEach((resource) => {
+			if (resource[field].length > maxFieldLength) {
+				maxFieldLength = resource[field].length;
+			}
+		});
+
+		setStateObjectProperty(
+			maxColumnLengths,
+			setMaxColumnLengths,
+			field,
+			maxFieldLength
+		);
 	}
 
 	function updateDelete(id) {
