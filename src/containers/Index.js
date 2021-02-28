@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import {
 	setStateObjectProperty,
 	deleteItemFromStateArrayByMongoId,
+	addItemToStateArray,
 } from "cloak-state-util";
 
 import {
@@ -53,9 +54,20 @@ function Index({ resourceName, resourceFields }) {
 		"users"
 	);
 
+	const [tableData, setTableData] = React.useState([]);
+	let [headers, setHeaders] = React.useState([]);
+
+	React.useEffect(
+		function () {
+			populateTableData();
+		},
+		[resources]
+	);
+
 	React.useEffect(function () {
 		handleFetchingData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
+		generateHeaders();
 	}, []);
 
 	function handleFetchingData() {
@@ -108,84 +120,32 @@ function Index({ resourceName, resourceFields }) {
 		deleteItemFromStateArrayByMongoId(resources, setResources, id);
 	}
 
-	// Will Review
+	function generateHeaders() {
+		const tableData = [];
+		// fieldsObj.tableData = [];
 
-	const fieldsObj = {};
-	fieldsObj.tableData = [];
-
-	fieldsObj.header = resourceFields.map((resourceField) => {
-		return handleFieldHeaders(resourceField);
-	});
-
-	fieldsObj.header.push(<th key="addToCart-header">Add To Cart</th>);
-	fieldsObj.header.push(<th key="update-header">Update</th>);
-	fieldsObj.header.push(<th key="delete-header">Delete</th>);
-
-	if (resources !== undefined) {
-		let targetResources;
-		if (!showArchived) {
-			targetResources = resources.filter((resource) => resource["isActive"]);
-		} else {
-			targetResources = resources;
-		}
-
-		targetResources = targetResources.filter(
-			(resource) => resource.quantity >= quantityFilter
-		);
-
-		// Sort
-		targetResources = targetResources.sort((resource1, resource2) => {
-			switch (sortBy) {
-				case "inactive":
-					const isActive1i = resource1.isActive;
-					const isActive2i = resource2.isActive;
-
-					if (!isActive1i && isActive2i) {
-						return -1;
-					} else if (!isActive1i && !isActive2i) {
-						return 0;
-					} else {
-						return 1;
-					}
-					break;
-				case "active":
-					const isActive1a = resource1.isActive;
-					const isActive2a = resource2.isActive;
-
-					if (isActive1a && !isActive2a) {
-						return -1;
-					} else if (!isActive1a && !isActive2a) {
-						return 0;
-					} else {
-						return 1;
-					}
-					break;
-				case "quantity":
-					const quantity1 = resource1.quantity;
-					const quantity2 = resource2.quantity;
-
-					if (quantity1 > quantity2) {
-						return -1;
-					} else if (quantity1 === quantity2) {
-						return 0;
-					} else {
-						return 1;
-					}
-				case "price":
-					const price1 = resource1.price;
-					const price2 = resource2.price;
-
-					if (price1 > price2) {
-						return -1;
-					} else if (price1 === price2) {
-						return 0;
-					} else {
-						return 1;
-					}
-			}
+		const headersArray = resourceFields.map((resourceField) => {
+			return handleFieldHeaders(resourceField);
 		});
 
-		targetResources.forEach((resource) => {
+		headersArray.push(<th key="addToCart-header">Add To Cart</th>);
+		headersArray.push(<th key="update-header">Update</th>);
+		headersArray.push(<th key="delete-header">Delete</th>);
+
+		setHeaders(headersArray);
+	}
+
+	function populateTableData() {
+		if (!resources) {
+			return;
+		}
+
+		const targetResources = filterAndSortTargetResources();
+		populateFilteredResources(targetResources);
+	}
+
+	function populateFilteredResources(targetResources) {
+		const localTableData = targetResources.map((resource) => {
 			const resourceTableData = [];
 
 			resourceFields.forEach((resourceField) => {
@@ -255,8 +215,81 @@ function Index({ resourceName, resourceFields }) {
 			const nestedTableData = (
 				<tr key={`${resource._id}-row`}>{resourceTableData}</tr>
 			);
-			fieldsObj.tableData.push(nestedTableData);
+
+			// fieldsObj.tableData.push(nestedTableData);
+			return nestedTableData;
 		});
+
+		setTableData(localTableData);
+	}
+
+	function filterAndSortTargetResources() {
+		let targetResources;
+		if (!showArchived) {
+			targetResources = resources.filter((resource) => resource["isActive"]);
+		} else {
+			targetResources = resources;
+		}
+
+		targetResources = targetResources.filter(
+			(resource) => resource.quantity >= quantityFilter
+		);
+
+		// Sort
+		targetResources = targetResources.sort(targetResourcesComparator);
+
+		return targetResources;
+	}
+
+	function targetResourcesComparator(resource1, resource2) {
+		switch (sortBy) {
+			case "inactive":
+				const isActive1i = resource1.isActive;
+				const isActive2i = resource2.isActive;
+
+				if (!isActive1i && isActive2i) {
+					return -1;
+				} else if (!isActive1i && !isActive2i) {
+					return 0;
+				} else {
+					return 1;
+				}
+				break;
+			case "active":
+				const isActive1a = resource1.isActive;
+				const isActive2a = resource2.isActive;
+
+				if (isActive1a && !isActive2a) {
+					return -1;
+				} else if (!isActive1a && !isActive2a) {
+					return 0;
+				} else {
+					return 1;
+				}
+				break;
+			case "quantity":
+				const quantity1 = resource1.quantity;
+				const quantity2 = resource2.quantity;
+
+				if (quantity1 > quantity2) {
+					return -1;
+				} else if (quantity1 === quantity2) {
+					return 0;
+				} else {
+					return 1;
+				}
+			case "price":
+				const price1 = resource1.price;
+				const price2 = resource2.price;
+
+				if (price1 > price2) {
+					return -1;
+				} else if (price1 === price2) {
+					return 0;
+				} else {
+					return 1;
+				}
+		}
 	}
 
 	function handleFieldHeaders(resourceField) {
@@ -293,7 +326,6 @@ function Index({ resourceName, resourceFields }) {
 	function onFilterButtonClick() {
 		setShowArchived(!showArchived);
 	}
-
 	return (
 		<main>
 			<div className="filter-options">
@@ -336,9 +368,9 @@ function Index({ resourceName, resourceFields }) {
 			</div>
 			<table>
 				<thead>
-					<tr>{fieldsObj.header}</tr>
+					<tr>{headers}</tr>
 				</thead>
-				<tbody>{fieldsObj.tableData}</tbody>
+				<tbody>{tableData}</tbody>
 			</table>
 
 			<Link
