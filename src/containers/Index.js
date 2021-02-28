@@ -4,8 +4,6 @@ import DeleteButton from "../components/DeleteButton";
 
 import { Link } from "react-router-dom";
 
-import { Button } from "reactstrap";
-
 import {
 	setStateObjectProperty,
 	deleteItemFromStateArrayByMongoId,
@@ -213,7 +211,7 @@ function Index({ resourceName, resourceFields }) {
 								resourceName
 							)}ToCart/${encodeURI(resource._id)}`}
 						>
-							<Button color="success">Add To Cart</Button>
+							<button color="success">Add To Cart</button>
 						</Link>
 					</td>
 				);
@@ -228,7 +226,7 @@ function Index({ resourceName, resourceFields }) {
 							resourceName
 						)}/${encodeURI(resource._id)}`}
 					>
-						<Button color="primary">Update</Button>
+						<button color="primary">Update</button>
 					</Link>
 				</td>
 			);
@@ -289,9 +287,9 @@ function Index({ resourceName, resourceFields }) {
 		<main>
 			<div className="filter-options">
 				<div className="show-all-active-button">
-					<Button color="info" type="button" onClick={onFilterButtonClick}>
+					<button color="info" type="button" onClick={onFilterButtonClick}>
 						{showArchived ? "Show Active" : "Show All"}
-					</Button>
+					</button>
 				</div>
 				<div className="filter-by">
 					<div className="sort-by">Sort By:</div>
@@ -332,9 +330,9 @@ function Index({ resourceName, resourceFields }) {
 					resourceName
 				)}`}
 			>
-				<Button color="success">{`Create ${kebabToPascalCaseWithSpaces(
+				<button color="success">{`Create ${kebabToPascalCaseWithSpaces(
 					resourceName
-				)}`}</Button>
+				)}`}</button>
 			</Link>
 		</main>
 	);
