@@ -1,4 +1,11 @@
+@import "../style-variables/variables.scss";
+
 .cant-see-message,
 .loading-message {
-  text-align: center;
+	text-align: center;
+}
+
+.user-items {
+	background-color: $highlight-color;
+	padding: 2rem;
 }
