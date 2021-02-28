@@ -216,7 +216,11 @@ function Index({ resourceName, resourceFields }) {
 					</td>
 				);
 			} else {
-				resourceTableData.push(<td key={`${resource._id}-add-to-cart`}></td>);
+				resourceTableData.push(
+					<td key={`${resource._id}-add-to-cart`}>
+						<button disabled>Add To Cart</button>
+					</td>
+				);
 			}
 
 			resourceTableData.push(
