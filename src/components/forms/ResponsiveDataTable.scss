@@ -1,0 +1,142 @@
+@import "../../style-variables/variables.scss";
+
+table {
+	margin: 1rem;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 100%;
+	height: 100%;
+}
+
+th,
+td {
+	border: 1px solid black;
+	padding: 1rem;
+	text-align: center;
+}
+
+.filter-options {
+	display: flex;
+	justify-content: space-around;
+}
+
+.filter-by {
+	display: flex;
+}
+
+.sort-by {
+	border: 0.2rem solid $text-color;
+	padding: 0.2rem;
+	margin-right: 1rem;
+	background-color: $main-background-color;
+}
+
+.filter-by-quantity {
+	display: flex;
+}
+
+.quantity {
+	border: 0.2rem solid $text-color;
+	padding: 0.2rem;
+	margin-right: 1rem;
+	background-color: $main-background-color;
+}
+
+/*
+Generic Styling, for Desktop/laptops
+*/
+tr:nth-of-type(odd) {
+	background: $highlight-color;
+}
+tr:nth-of-type(even) {
+	background: $gray-highlight-color;
+}
+
+th {
+	background: $table-background-color;
+	color: white;
+	font-weight: bold;
+}
+
+td,
+th {
+	padding: 6px;
+	border: 1px solid #ccc;
+	text-align: left;
+}
+
+@media only screen and (max-width: 990px) {
+	/* Force table to not be like tables anymore */
+	table,
+	thead,
+	tbody,
+	th,
+	td,
+	tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;;, for accessibility */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	tr {
+		border: 1px solid #ccc;
+	}
+
+	td {
+		/* Behave like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee;
+		position: relative;
+		padding-left: 50%;
+		font-weight: bold;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values micmic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
+	/*
+	Label the data
+	*/
+
+	td:nth-of-type(1):before {
+		content: "Name";
+	}
+	td:nth-of-type(2):before {
+		content: "Price";
+	}
+	td:nth-of-type(3):before {
+		content: "Description";
+	}
+	td:nth-of-type(4):before {
+		content: "Quantity";
+	}
+	td:nth-of-type(5):before {
+		content: "Is Active";
+	}
+	td:nth-of-type(6):before {
+		content: "Add To Cart";
+	}
+	td:nth-of-type(7):before {
+		content: "Update";
+	}
+	td:nth-of-type(8):before {
+		content: "Delete";
+	}
+}
+
+/**
+	Styles for making responsive table above
+*/
