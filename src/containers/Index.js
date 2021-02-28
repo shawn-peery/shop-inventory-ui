@@ -55,7 +55,7 @@ function Index({ resourceName, resourceFields }) {
 	);
 
 	const [tableData, setTableData] = React.useState([]);
-	let [headers, setHeaders] = React.useState([]);
+	const [headers, setHeaders] = React.useState([]);
 
 	React.useEffect(
 		function () {
