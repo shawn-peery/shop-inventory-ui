@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
+import "./Cart.scss";
 
 function Cart(props) {
 	const [products, setProducts] = React.useState([]);
@@ -92,7 +93,7 @@ function Cart(props) {
 
 	// TODO: Read the products key from the local storage
 	return (
-		<>
+		<main>
 			{addingResource && addedResource && (
 				<>
 					<h1>Item has been added to your cart!</h1>
@@ -110,33 +111,23 @@ function Cart(props) {
 
 			{redirect && <Redirect to={`${REACT_APP_USER_API_BASE_URL}/cart`} />}
 
-			{!addedResource &&
-				productIds.map((product) => {
-					return (
-						<>
-							<h1>{product.name}</h1>
-							<h1>{product.price}</h1>
-							<h1>{product.description}</h1>
-							<h1>{product.quantity}</h1>
-							<h1>{product.isActive}</h1>
-						</>
-					);
-				})}
-
-			{!addedResource &&
-				products &&
-				products.map((product) => {
-					return (
-						<>
-							<h1>{product.name}</h1>
-							<h1>{product.price}</h1>
-							<h1>{product.description}</h1>
-							<h1>{product.quantity}</h1>
-							<h1>{product.isActive}</h1>
-						</>
-					);
-				})}
-		</>
+			{!addedResource && (
+				<div className="products-list">
+					{products &&
+						products.map((product) => {
+							return (
+								<>
+									<h1>{product.name}</h1>
+									<h1>{product.price}</h1>
+									<h1>{product.description}</h1>
+									<h1>{product.quantity}</h1>
+									<h1>{product.isActive}</h1>
+								</>
+							);
+						})}
+				</div>
+			)}
+		</main>
 	);
 }
 
