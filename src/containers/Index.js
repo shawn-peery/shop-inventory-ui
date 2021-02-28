@@ -61,7 +61,7 @@ function Index({ resourceName, resourceFields }) {
 		function () {
 			populateTableData();
 		},
-		[resources]
+		[resources, showArchived]
 	);
 
 	React.useEffect(function () {
