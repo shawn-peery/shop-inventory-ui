@@ -128,7 +128,11 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
 						/>
 
 						<Route exact path={`${REACT_APP_USER_API_BASE_URL}/cart`}>
-							<Cart apiURL={REACT_APP_RESOURCE_API_BASE_URL} />
+							<Cart
+								apiURL={REACT_APP_RESOURCE_API_BASE_URL}
+								resourceName={resourceName}
+								resourceFields={resourceFields}
+							/>
 						</Route>
 
 						<Route
@@ -137,7 +141,12 @@ function MainSwitch({ resourceName, resourceFields, userFields }) {
 							)}ToCart/:id`}
 							render={(props) => {
 								return (
-									<Cart {...props} apiURL={REACT_APP_RESOURCE_API_BASE_URL} />
+									<Cart
+										{...props}
+										apiURL={REACT_APP_RESOURCE_API_BASE_URL}
+										resourceName={resourceName}
+										resourceFields={resourceFields}
+									/>
 								);
 							}}
 						></Route>

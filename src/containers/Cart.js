@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 import "./Cart.scss";
+import ResponsiveDataTable from "../components/forms/ResponsiveDataTable";
 
 function Cart(props) {
 	const [products, setProducts] = React.useState([]);
@@ -111,21 +112,12 @@ function Cart(props) {
 
 			{redirect && <Redirect to={`${REACT_APP_USER_API_BASE_URL}/cart`} />}
 
-			{!addedResource && (
-				<div className="products-list">
-					{products &&
-						products.map((product) => {
-							return (
-								<>
-									<h1>{product.name}</h1>
-									<h1>{product.price}</h1>
-									<h1>{product.description}</h1>
-									<h1>{product.quantity}</h1>
-									<h1>{product.isActive}</h1>
-								</>
-							);
-						})}
-				</div>
+			{!addedResource && products && (
+				<ResponsiveDataTable
+					resourceName={props.resourceName}
+					resourceFields={props.resourceFields}
+					inputResources={products}
+				></ResponsiveDataTable>
 			)}
 		</main>
 	);
