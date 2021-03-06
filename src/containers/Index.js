@@ -3,6 +3,8 @@ import React from "react";
 import "./Index.scss";
 import ResponsiveDataTable from "../components/forms/ResponsiveDataTable";
 
+import { capitalizeWord } from "../components/utils/StringStyleConverion";
+
 function Index({ resourceName, resourceFields }) {
 	const token = window.localStorage.getItem("auth");
 
@@ -18,13 +20,15 @@ function Index({ resourceName, resourceFields }) {
 		{
 			name: "Add To Cart",
 			key: "add-to-cart",
-			button: function () {
-				console.log("Hit Add To Cart Button!");
-			},
 		},
 		{
 			name: "Update",
 			key: "update",
+			sendTo: function (id) {
+				return `${REACT_APP_RESOURCE_API_BASE_URL}/update${capitalizeWord(
+					resourceName
+				)}/${encodeURI(id)}`;
+			},
 			button: function () {
 				console.log("Hit Update Button!");
 			},

@@ -171,28 +171,62 @@ function ResponsiveDataTable({
 				);
 			}
 
-			resourceTableData.push(
-				<td key={`${resource._id}-update`}>
-					<Link
-						to={`${REACT_APP_RESOURCE_API_BASE_URL}/update${capitalizeWord(
-							resourceName
-						)}/${encodeURI(resource._id)}`}
-					>
-						<button color="primary">Update</button>
-					</Link>
-				</td>
-			);
+			options.forEach((option) => {
+				const name = option["name"];
+				const key = option["key"];
+				const callBackFunction = option["button"];
+				const sendTo = option["sendTo"];
 
-			resourceTableData.push(
-				<td key={`${resource._id}-delete`}>
-					<DeleteButton
-						resourceProp={resource}
-						updateDelete={updateDelete}
-						resourceName={resourceName}
-						resourceFields={resourceFields}
-					/>
-				</td>
-			);
+				const doesSend = sendTo !== undefined && sendTo !== null;
+
+				resourceTableData.push(
+					<td key={`${resource._id}-${key}`}>
+						{doesSend && (
+							<Link
+								key={key + "-generated-sending-td"}
+								to={sendTo(resource._id)}
+							>
+								<button color="primary" onClick={callBackFunction}>
+									{name}
+								</button>
+							</Link>
+						)}
+
+						{!doesSend && (
+							<button
+								key={key + "-generated-td"}
+								color="primary"
+								onClick={callBackFunction}
+							>
+								{name}
+							</button>
+						)}
+					</td>
+				);
+			});
+
+			// resourceTableData.push(
+			// 	<td key={`${resource._id}-update`}>
+			// 		<Link
+			// 			to={`${REACT_APP_RESOURCE_API_BASE_URL}/update${capitalizeWord(
+			// 				resourceName
+			// 			)}/${encodeURI(resource._id)}`}
+			// 		>
+			// 			<button color="primary">Update</button>
+			// 		</Link>
+			// 	</td>
+			// );
+
+			// resourceTableData.push(
+			// 	<td key={`${resource._id}-delete`}>
+			// 		<DeleteButton
+			// 			resourceProp={resource}
+			// 			updateDelete={updateDelete}
+			// 			resourceName={resourceName}
+			// 			resourceFields={resourceFields}
+			// 		/>
+			// 	</td>
+			// );
 			const nestedTableData = (
 				<tr key={`${resource._id}-row`}>{resourceTableData}</tr>
 			);
