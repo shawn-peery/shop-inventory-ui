@@ -5,6 +5,8 @@ import ResponsiveDataTable from "../components/forms/ResponsiveDataTable";
 
 import { capitalizeWord } from "../components/utils/StringStyleConverion";
 
+import DeleteButton from "../components/DeleteButton";
+
 function Index({ resourceName, resourceFields }) {
 	const token = window.localStorage.getItem("auth");
 
@@ -17,10 +19,6 @@ function Index({ resourceName, resourceFields }) {
 		resourceName.toLowerCase() + "s"
 	);
 	const options = [
-		{
-			name: "Add To Cart",
-			key: "add-to-cart",
-		},
 		{
 			name: "Update",
 			key: "update",
@@ -36,6 +34,16 @@ function Index({ resourceName, resourceFields }) {
 		{
 			name: "Delete",
 			key: "delete",
+			toRender: function (resource, updateDelete) {
+				return (
+					<DeleteButton
+						resourceProp={resource}
+						updateDelete={updateDelete}
+						resourceName={resourceName}
+						resourceFields={resourceFields}
+					/>
+				);
+			},
 			button: function () {
 				console.log("Hit Delete Button!");
 			},

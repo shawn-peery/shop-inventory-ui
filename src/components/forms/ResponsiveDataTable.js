@@ -176,8 +176,24 @@ function ResponsiveDataTable({
 				const key = option["key"];
 				const callBackFunction = option["button"];
 				const sendTo = option["sendTo"];
+				const toRender = option["toRender"];
 
+				const doesRender = toRender !== undefined && toRender !== null;
 				const doesSend = sendTo !== undefined && sendTo !== null;
+
+				let content = (
+					<button
+						key={key + `-generated${doesSend ? "-sending" : ""}-td`}
+						color="primary"
+						onClick={callBackFunction}
+					>
+						{name}
+					</button>
+				);
+
+				if (doesRender) {
+					content = toRender(resource, updateDelete);
+				}
 
 				resourceTableData.push(
 					<td key={`${resource._id}-${key}`}>
@@ -186,21 +202,11 @@ function ResponsiveDataTable({
 								key={key + "-generated-sending-td"}
 								to={sendTo(resource._id)}
 							>
-								<button color="primary" onClick={callBackFunction}>
-									{name}
-								</button>
+								{content}
 							</Link>
 						)}
 
-						{!doesSend && (
-							<button
-								key={key + "-generated-td"}
-								color="primary"
-								onClick={callBackFunction}
-							>
-								{name}
-							</button>
-						)}
+						{!doesSend && <>{content} </>}
 					</td>
 				);
 			});
