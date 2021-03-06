@@ -24,6 +24,23 @@ function Cart(props) {
 		"users"
 	);
 
+	const options = [
+		{
+			name: "Update",
+			key: "update",
+			button: function () {
+				console.log("Hit Update Button!");
+			},
+		},
+		{
+			name: "Delete",
+			key: "delete",
+			button: function () {
+				console.log("Hit Delete Button!");
+			},
+		},
+	];
+
 	const token = window.localStorage.getItem("auth");
 
 	// Ensures that addingResource is updated to true if needed
@@ -117,6 +134,7 @@ function Cart(props) {
 					resourceName={props.resourceName}
 					resourceFields={props.resourceFields}
 					inputResources={products}
+					options={options}
 				></ResponsiveDataTable>
 			)}
 		</main>

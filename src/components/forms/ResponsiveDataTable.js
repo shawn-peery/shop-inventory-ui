@@ -17,7 +17,14 @@ import {
 	capitalizeWord,
 } from "../utils/StringStyleConverion";
 
-function ResponsiveDataTable({ resourceName, inputResources, resourceFields }) {
+// The buttons objects contains the name of buttons, their callback functions and their key
+
+function ResponsiveDataTable({
+	resourceName,
+	inputResources,
+	resourceFields,
+	options,
+}) {
 	const [maxColumnLengths, setMaxColumnLengths] = React.useState({});
 	/* 
 
@@ -85,7 +92,7 @@ function ResponsiveDataTable({ resourceName, inputResources, resourceFields }) {
 	}
 
 	function recordMaxFieldLengths() {
-		if (!resources) {
+		if (!resources || !resources[0]) {
 			return;
 		}
 		Object.keys(resources[0])
@@ -105,9 +112,15 @@ function ResponsiveDataTable({ resourceName, inputResources, resourceFields }) {
 			return handleFieldHeaders(resourceField);
 		});
 
-		headersArray.push(<th key="addToCart-header">Add To Cart</th>);
-		headersArray.push(<th key="update-header">Update</th>);
-		headersArray.push(<th key="delete-header">Delete</th>);
+		options.forEach((optionsObj) => {
+			const name = optionsObj["name"];
+			const key = optionsObj["key"];
+			headersArray.push(<th key={key + "-header"}>{name}</th>);
+		});
+
+		// headersArray.push(<th key="addToCart-header">Add To Cart</th>);
+		// headersArray.push(<th key="update-header">Update</th>);
+		// headersArray.push(<th key="delete-header">Delete</th>);
 
 		setHeaders(headersArray);
 	}

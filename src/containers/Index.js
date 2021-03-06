@@ -14,6 +14,30 @@ function Index({ resourceName, resourceFields }) {
 		// Perhaps in the future, will add functionality for resources that have differeing plural words
 		resourceName.toLowerCase() + "s"
 	);
+	const options = [
+		{
+			name: "Add To Cart",
+			key: "add-to-cart",
+			button: function () {
+				console.log("Hit Add To Cart Button!");
+			},
+		},
+		{
+			name: "Update",
+			key: "update",
+			button: function () {
+				console.log("Hit Update Button!");
+			},
+		},
+		{
+			name: "Delete",
+			key: "delete",
+			button: function () {
+				console.log("Hit Delete Button!");
+			},
+		},
+	];
+
 	React.useEffect(function () {
 		handleFetchingData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,6 +70,7 @@ function Index({ resourceName, resourceFields }) {
 				resourceName={resourceName}
 				resourceFields={resourceFields}
 				inputResources={resources}
+				options={options}
 			></ResponsiveDataTable>
 		</main>
 	);
