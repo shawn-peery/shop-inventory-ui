@@ -45,12 +45,6 @@ function ResponsiveDataTable({
 		resourceName.toLowerCase() + "s"
 	);
 
-	const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
-		"<resource>",
-		// Perhaps in the future, will add functionality for resources that have differeing plural words
-		"users"
-	);
-
 	const [sortBy, setSortBy] = React.useState("active");
 
 	const [showArchived, setShowArchived] = React.useState(false);
@@ -151,25 +145,25 @@ function ResponsiveDataTable({
 				}
 			});
 
-			if (resource.isActive) {
-				resourceTableData.push(
-					<td key={`${resource._id}-add-to-cart`}>
-						<Link
-							to={`${REACT_APP_USER_API_BASE_URL}/add${capitalizeWord(
-								resourceName
-							)}ToCart/${encodeURI(resource._id)}`}
-						>
-							<button color="success">Add To Cart</button>
-						</Link>
-					</td>
-				);
-			} else {
-				resourceTableData.push(
-					<td key={`${resource._id}-add-to-cart`}>
-						<button disabled>Add To Cart</button>
-					</td>
-				);
-			}
+			// if (resource.isActive) {
+			// 	resourceTableData.push(
+			// 		<td key={`${resource._id}-add-to-cart`}>
+			// 			<Link
+			// 				to={`${REACT_APP_USER_API_BASE_URL}/add${capitalizeWord(
+			// 					resourceName
+			// 				)}ToCart/${encodeURI(resource._id)}`}
+			// 			>
+			// 				<button color="success">Add To Cart</button>
+			// 			</Link>
+			// 		</td>
+			// 	);
+			// } else {
+			// 	resourceTableData.push(
+			// 		<td key={`${resource._id}-add-to-cart`}>
+			// 			<button disabled>Add To Cart</button>
+			// 		</td>
+			// 	);
+			// }
 
 			options.forEach((option) => {
 				const name = option["name"];
@@ -192,7 +186,11 @@ function ResponsiveDataTable({
 				);
 
 				if (doesRender) {
-					content = toRender(resource, updateDelete);
+					content = toRender({
+						resource,
+						updateDelete,
+						isActive: resource.isActive,
+					});
 				}
 
 				resourceTableData.push(

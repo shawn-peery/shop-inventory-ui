@@ -7,6 +7,8 @@ import { capitalizeWord } from "../components/utils/StringStyleConverion";
 
 import DeleteButton from "../components/DeleteButton";
 
+import { Link } from "react-router-dom";
+
 function Index({ resourceName, resourceFields }) {
 	const token = window.localStorage.getItem("auth");
 
@@ -18,7 +20,36 @@ function Index({ resourceName, resourceFields }) {
 		// Perhaps in the future, will add functionality for resources that have differeing plural words
 		resourceName.toLowerCase() + "s"
 	);
+	const REACT_APP_USER_API_BASE_URL = process.env.REACT_APP_RESOURCE_API_BASE_URL.replace(
+		"<resource>",
+		// Perhaps in the future, will add functionality for resources that have differeing plural words
+		"users"
+	);
+
 	const options = [
+		{
+			name: "Add To Cart",
+			key: "add-to-cart",
+			toRender: function ({ resource, isActive }) {
+				return (
+					<>
+						{isActive && (
+							<Link
+								to={`${REACT_APP_USER_API_BASE_URL}/add${capitalizeWord(
+									resourceName
+								)}ToCart/${encodeURI(resource._id)}`}
+							>
+								<button color="success">Add To Cart</button>
+							</Link>
+						)}
+						{!isActive && <button disabled>Add To Cart</button>}
+					</>
+				);
+			},
+			button: function () {
+				console.log("Hit Update Button!");
+			},
+		},
 		{
 			name: "Update",
 			key: "update",
@@ -34,7 +65,7 @@ function Index({ resourceName, resourceFields }) {
 		{
 			name: "Delete",
 			key: "delete",
-			toRender: function (resource, updateDelete) {
+			toRender: function ({ resource, updateDelete }) {
 				return (
 					<DeleteButton
 						resourceProp={resource}
