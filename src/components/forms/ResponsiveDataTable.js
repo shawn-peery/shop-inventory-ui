@@ -194,7 +194,7 @@ function ResponsiveDataTable({
 				}
 
 				resourceTableData.push(
-					<td key={`${resource._id}-${key}`}>
+					<td data-siid={resource._id} key={`${resource._id}-${key}`}>
 						{doesSend && (
 							<Link
 								key={key + "-generated-sending-td"}

@@ -26,17 +26,31 @@ function Cart(props) {
 
 	const options = [
 		{
-			name: "Update",
-			key: "update",
-			button: function () {
-				console.log("Hit Update Button!");
-			},
-		},
-		{
-			name: "Delete",
-			key: "delete",
-			button: function () {
-				console.log("Hit Delete Button!");
+			name: "Remove",
+			key: "remove",
+			button: function (event) {
+				const tableData = event.target.closest("td");
+				const id = tableData.dataset.siid;
+				console.log(id);
+				console.log("Hit Remove Button!");
+				setProductIds(productIds.filter((productId) => productId !== id));
+				setProducts(products.filter((product) => product._id !== id));
+
+				let list = [];
+				const stringVersion = window.localStorage.getItem(
+					REACT_APP_CART_TOKEN_NAME
+				);
+
+				if (!stringVersion) {
+					return;
+				}
+
+				list = JSON.parse(stringVersion);
+
+				window.localStorage.setItem(
+					REACT_APP_CART_TOKEN_NAME,
+					JSON.stringify(list.filter((productId) => productId !== id))
+				);
 			},
 		},
 	];
@@ -59,7 +73,7 @@ function Cart(props) {
 			productIdsList = JSON.parse(stringVersion);
 		}
 
-		if (props.match) {
+		if (props.match && !productIdsList.includes(props.match.params.id)) {
 			productIdsList.push(props.match.params.id);
 			window.localStorage.setItem(
 				REACT_APP_CART_TOKEN_NAME,
