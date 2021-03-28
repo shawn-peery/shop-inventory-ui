@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 
 import "bootstrap/dist/css/bootstrap.css";
 
+// Testing Mac Git Setup
+
 ReactDOM.render(
 	<React.StrictMode>
 		<App />
